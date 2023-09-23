@@ -1,0 +1,57 @@
+//recursion
+#include <bits/stdc++.h>
+
+
+int f(int n,vector<int> &arr){
+    if(n==0)return 0;
+    int r=INT_MAX;
+    int l=f(n-1,arr) +abs(arr[n]-arr[n-1]);
+    if (n > 1) {
+       r = f(n - 2, arr) + abs(arr[n] - arr[n - 2]);
+    }
+
+    return min(l,r);
+}
+
+int frogJump(int n, vector<int> &arr)
+{
+    return f(n-1,arr);
+}
+
+//memoization
+#include <bits/stdc++.h>
+
+
+int f(int n,vector<int> &arr,vector<int> &dp){
+    if(n==0)return 0;
+    if(dp[n]!=-1)return dp[n];
+    int r=INT_MAX;
+    int l=f(n-1,arr,dp) +abs(arr[n]-arr[n-1]);
+    if (n > 1) {
+       r = f(n - 2, arr,dp) + abs(arr[n] - arr[n - 2]);
+    }
+
+    return dp[n]=min(l,r);
+}
+
+int frogJump(int n, vector<int> &arr)
+{
+    vector<int> dp(n+1,-1);
+    return f(n-1,arr,dp);
+}
+
+//Tabulation
+int frogJump(int n, vector<int> &arr)
+{
+    vector<int> dp(n+1,0);
+    for(int i=1;i<n;i++){
+        int r=INT_MAX;
+        int l=dp[i-1] +abs(arr[i]-arr[i-1]);
+        if (i > 1) {
+            r = dp[i - 2] + abs(arr[i] - arr[i - 2]);
+        }
+        dp[i]=min(l,r);
+    }
+
+    return dp[n-1];
+}
