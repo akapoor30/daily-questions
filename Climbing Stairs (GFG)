@@ -1,0 +1,18 @@
+class Solution
+{
+    int mod=1000000007;
+    public:
+    int f(int ind,vector<int> &dp){
+        if(ind==1 || ind==0)return 1;
+        if(dp[ind]!=-1)return dp[ind];
+        int l=f(ind-1,dp);
+        int r=f(ind-2,dp);
+        return dp[ind]=(l+r)%mod;
+    }
+    //Function to count number of ways to reach the nth stair.
+    int countWays(int n)
+    {
+        vector<int> dp(n+1,-1);
+        return f(n,dp);
+    }
+};
