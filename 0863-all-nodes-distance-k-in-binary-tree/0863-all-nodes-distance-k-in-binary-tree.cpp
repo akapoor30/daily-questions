@@ -38,7 +38,7 @@ public:
         
         unordered_map<TreeNode*,bool> visited;
         
-        visited[target]=true;
+        visited[target]=1;
         
         int dis=0;
         
@@ -56,17 +56,17 @@ public:
                 
                 if(curr->left && !visited[curr->left]){
                     q.push(curr->left);
-                    visited[curr->left]=true;
+                    visited[curr->left]=1;
                 }
                 
                 if(curr->right && !visited[curr->right]){
                     q.push(curr->right);
-                    visited[curr->right]=true;
+                    visited[curr->right]=1;
                 }
                 
                 if(parent_track[curr] && !visited[parent_track[curr]]){
                     q.push(parent_track[curr]);
-                    visited[parent_track[curr]]=true;
+                    visited[parent_track[curr]]=1;
                 }
             }
             
