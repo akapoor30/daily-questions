@@ -1,0 +1,90 @@
+/************************************************************
+
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode 
+    {
+        public : 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) 
+        {
+            this -> data = data;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+#include <bits/stdc++.h>
+
+int time(BinaryTreeNode<int>* node,map<BinaryTreeNode<int>* ,BinaryTreeNode<int>*>& parent_map){
+    map<BinaryTreeNode<int>* , int> vis;
+    queue<BinaryTreeNode<int>*> q;
+    q.push(node);
+    vis[node]=1;
+    int ans=0;
+    while(!q.empty()){
+        int size=q.size();
+        int flag=0;
+
+        for(int i=0;i<size;i++){
+            auto temp=q.front();
+            q.pop();
+            if(temp->left && !vis[temp->left]){
+                vis[temp->left]=1;
+                flag=1;
+                q.push(temp->left);
+            }
+            if(temp->right && !vis[temp->right]){
+                vis[temp->right]=1;
+                flag=1;
+                q.push(temp->right);
+            }
+
+            if(parent_map[temp] && !vis[parent_map[temp]]){
+                vis[parent_map[temp]]=1;
+                flag=1;
+                q.push(parent_map[temp]);
+            }
+
+        }
+        if(flag==1)ans++;
+    }
+
+    return ans;
+}
+
+BinaryTreeNode<int>* parent_mapping(BinaryTreeNode<int>* root,int start,map<BinaryTreeNode<int>* ,BinaryTreeNode<int>*>& parent_map){
+    queue<BinaryTreeNode<int>*> q;
+    q.push(root);
+    BinaryTreeNode<int>* res;
+    while(!q.empty()){
+        BinaryTreeNode<int>* node= q.front();
+        q.pop();
+        if(node->data==start){
+            res=node;
+        }
+        
+        if(node->left){
+            parent_map[node->left]=node;
+            q.push(node->left);
+        }
+        if(node->right){
+            parent_map[node->right]=node;
+            q.push(node->right);
+        }
+
+    }
+    return res;
+}
+
+int timeToBurnTree(BinaryTreeNode<int>* root, int start)
+{
+    map<BinaryTreeNode<int>* ,BinaryTreeNode<int>*> parent_map;
+    BinaryTreeNode<int>* node=parent_mapping(root,start,parent_map);
+    int ans=time(node,parent_map);
+    return ans;
+}
