@@ -3,7 +3,7 @@ select
    Users.name ,sum(Transactions.amount) as balance 
 from 
     Users 
-inner join  
+left join  
     Transactions 
 on 
     Users.account=Transactions.account 
