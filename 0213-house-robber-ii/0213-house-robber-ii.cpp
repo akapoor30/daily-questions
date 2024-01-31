@@ -1,26 +1,24 @@
 class Solution {
     
-      int f(int index,vector<int>& nums,vector<int>& dp){
-        if(index==0)
-            return nums[0];
-        if(index<0)
-            return 0;
-        if(dp[index]!=-1)return dp[index];
-        
-        
-        int pick=nums[index]+f(index-2,nums,dp);
-        int np = 0 + f(index-1,nums,dp);
-        
-        return dp[index]= max(np,pick);
-    }
-    
-    
-   int f1(vector<int>& nums) {
+int f1(vector<int>& nums) {
         int n=nums.size();
-        vector<int> dp(n,-1);
-        return f(n-1,nums,dp);
+        vector<int> dp(n,0);
+        int prev2=0;
+        int prev=nums[0];
+        
+        for(int ind=1;ind<n;ind++){
+            int pk=nums[ind];
+            if(ind>1)pk+=prev2;
+            int np=0+prev;
+           
+            int curr=max(pk,np);
+            
+            prev2=prev;
+            prev=curr;
+            
+        }
+        return prev;
     }
-    
 public:
     int rob(vector<int>& nums) {
         vector<int> temp1,temp2;
