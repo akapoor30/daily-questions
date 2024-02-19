@@ -1,2 +1,2 @@
-/* Write your T-SQL query statement below */
-select Product.product_name, Sales.year, Sales.price from Sales left join Product on Sales.product_id =Product.product_id;
+# Write your MySQL query statement below
+select product.product_name,sales.year,sales.price from sales left join product on sales.product_id=product.product_id;
