@@ -1,44 +1,15 @@
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& nums, int target) {
-        vector<int> vec(2,-1);
-        int s=0,e=nums.size()-1;
-        int m;
+    vector<int> searchRange(vector<int>& arr, int target) {
+        int lb=lower_bound(arr.begin(),arr.end(),target) - arr.begin();
         
-       
-        
-        while(s<=e){
-            m=s+(e-s)/2;
-            
-            if(nums[m]>target){
-                e=m-1;
-            }
-            else if(nums[m]<target)
-                s=m+1;
-            else{
-                vec[0]=m;
-                e=m-1;
-            }
-        }
-         s=0;
-        e=nums.size()-1;
-        while(s<=e){
-            m=s+(e-s)/2;
-            
-            if(nums[m]>target){
-                e=m-1;
-            }
-            else if(nums[m]<target)
-                s=m+1;
-            else{
-                vec[1]=m;
-                 s=m+1;
-            }
-            
+        if(lb==arr.size() || arr[lb]!=target){
+            return {-1,-1};
         }
         
+        int ub=upper_bound(arr.begin(),arr.end(),target) - arr.begin();
         
+        return {lb,ub-1};
         
-        return vec;
     }
 };
