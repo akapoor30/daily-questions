@@ -1,23 +1,29 @@
 class Solution {
 public:
     
-    void f(int ind,vector<int>& nums,vector<vector<int>> &ans,vector<int> &tmp){
-        if(ind==nums.size()){
-            ans.push_back(nums);
+    void per(vector<int> &nums,vector<vector<int>> &ans,vector<int> &freq, vector<int> &temp){
+        if(temp.size()==nums.size()){
+            ans.push_back(temp);
             return ;
-            
         }
-        for(int i=ind;i<nums.size();i++){
-            swap(nums[i],nums[ind]);
-            f(ind+1,nums,ans,tmp);
-            swap(nums[i],nums[ind]);
+        
+        for(int i=0;i<nums.size();i++){
+            if(!freq[i]){
+                freq[i]=1;
+                temp.push_back(nums[i]);
+                per(nums,ans,freq,temp);
+                freq[i]=0;
+                temp.pop_back();
+            }
         }
     }
     
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> ans;
-        vector<int> tmp;
-        f(0,nums,ans,tmp);
+        vector<int> temp;
+        vector<int> freq(nums.size(),0);
+        per(nums,ans,freq,temp);
+        
         return ans;
     }
 };
