@@ -2,20 +2,22 @@ class Solution {
 public:
     
    int f(vector<int>& nums) {
-        
-        vector<int> dp(nums.size(),0);
-        dp[0]=nums[0];
-        int neg=0;
+        int prev=nums[0];
+        int prev2=0;
         
         for(int i=1;i<nums.size();i++){
             int take=nums[i];
-            if(i>1)take+=dp[i-2];
-            int notTake=dp[i-1];
+            if(i>1)take+=prev2;
+            int notTake=prev;
             
-            dp[i]=max(take,notTake);
+            int curr=max(take,notTake);
+            
+            prev2=prev;
+            prev=curr;
         }
         
-        return dp[nums.size()-1];
+        return prev;
+        
         
     }
     int rob(vector<int>& nums) {
