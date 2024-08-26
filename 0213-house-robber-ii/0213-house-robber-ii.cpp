@@ -1,28 +1,28 @@
 class Solution {
 public:
     
-     int f(vector<int> &nums,int ind, vector<int> &dp){
-        if(ind==0){
-            return nums[ind];
+   int f(vector<int>& nums) {
+        
+        vector<int> dp(nums.size(),0);
+        dp[0]=nums[0];
+        int neg=0;
+        
+        for(int i=1;i<nums.size();i++){
+            int take=nums[i];
+            if(i>1)take+=dp[i-2];
+            int notTake=dp[i-1];
+            
+            dp[i]=max(take,notTake);
         }
-        if(ind<0){
-            return 0;
-        }
-         
-        if(dp[ind]!=-1)return dp[ind];
         
-          int pick=nums[ind]+f(nums,ind-2,dp);
+        return dp[nums.size()-1];
         
-        int notPick=0+f(nums,ind-1,dp);
-        
-        return dp[ind]=max(pick,notPick);
     }
-    
     int rob(vector<int>& nums) {
         
         vector<int> vec1,vec2;
         
-        vector<int> dp1(nums.size()-1,-1),dp2(nums.size()-1,-1);
+        // vector<int> dp1(nums.size()-1,-1),dp2(nums.size()-1,-1);............
         
         vec1.push_back(nums[0]);
         if(nums.size()==1)return nums[0];
@@ -34,6 +34,6 @@ public:
         
         vec2.push_back(nums[nums.size()-1]);
         
-        return max(f(vec1,nums.size()-2,dp1),f(vec2,nums.size()-2,dp2));
+        return max(f(vec1),f(vec2));
     }
 };
