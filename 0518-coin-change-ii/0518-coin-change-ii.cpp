@@ -22,24 +22,26 @@ public:
         int n=nums.size();
         
         vector<vector<int>> dp(n,vector<int>(amount+1,0));
-        
+        vector<int> prev(amount+1,0),curr(amount+1,0);
         for(int i=0;i<=amount;i++){
-            dp[0][i]=(i%nums[0]==0);
+            prev[i]=(i%nums[0]==0);
         }
         
         for(int ind=1;ind<n;ind++){
             for(int tar=0;tar<=amount;tar++){
-                int nt=dp[ind-1][tar];
+                int nt=prev[tar];
                 int p=0;
                 if(tar>=nums[ind]){
-                    p=dp[ind][tar-nums[ind]];
+                    p=curr[tar-nums[ind]];
 
                 }
 
-                 dp[ind][tar]=p+nt;
+                 curr[tar]=p+nt;
             }
+            
+            prev=curr;
         }
         
-        return dp[n-1][amount];
+        return prev[amount];
     }
 };
