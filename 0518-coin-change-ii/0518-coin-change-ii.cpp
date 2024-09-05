@@ -1,23 +1,28 @@
 class Solution {
 public:
-    int change(int tar, vector<int>& a) {
-        int n=a.size();
-        vector<vector< long long int >> dp(n,vector< long long int> (tar+1,0));
-        for(int i=0;i<=tar;i++){
-            if(i%a[0]==0)dp[0][i]=1;
+    
+    int f(int ind,int tar,vector<int> &nums,vector<vector<int>> &dp){
+        if(ind==0){
+            return (tar%nums[0]==0);
+        }
         
+        if(dp[ind][tar]!=-1)return dp[ind][tar];        
+        int nt=f(ind-1,tar,nums,dp);
+        int p=0;
+        if(tar>=nums[ind]){
+            p=f(ind,tar-nums[ind],nums,dp);
+            
         }
-        for(int i=1;i<n;i++){
-            for(int j=0;j<=tar;j++){
-                long long int np=dp[i-1][j];
-                 long long int p=0;
-                if(a[i]<=j){
-                    p=dp[i][j-a[i]];
-                    
-                }
-                 dp[i][j]=p+np;
-            }
-        }
-        return dp[n-1][tar];
+        
+        return dp[ind][tar]=p+nt;
+    }
+    
+    
+    int change(int amount, vector<int>& coins) {
+        int n=coins.size();
+        
+        vector<vector<int>> dp(n,vector<int>(amount+1,-1));
+        
+        return f(n-1,amount,coins,dp);
     }
 };
