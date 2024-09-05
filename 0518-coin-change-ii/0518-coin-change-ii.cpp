@@ -18,11 +18,28 @@ public:
     }
     
     
-    int change(int amount, vector<int>& coins) {
-        int n=coins.size();
+    int change(int amount, vector<int>& nums) {
+        int n=nums.size();
         
-        vector<vector<int>> dp(n,vector<int>(amount+1,-1));
+        vector<vector<int>> dp(n,vector<int>(amount+1,0));
         
-        return f(n-1,amount,coins,dp);
+        for(int i=0;i<=amount;i++){
+            dp[0][i]=(i%nums[0]==0);
+        }
+        
+        for(int ind=1;ind<n;ind++){
+            for(int tar=0;tar<=amount;tar++){
+                int nt=dp[ind-1][tar];
+                int p=0;
+                if(tar>=nums[ind]){
+                    p=dp[ind][tar-nums[ind]];
+
+                }
+
+                 dp[ind][tar]=p+nt;
+            }
+        }
+        
+        return dp[n-1][amount];
     }
 };
