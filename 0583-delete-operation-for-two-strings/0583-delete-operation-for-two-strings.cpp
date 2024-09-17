@@ -17,18 +17,20 @@ public:
         int n=s1.size(),m=s2.size();
         
         vector<vector<int>> dp(n+1,vector<int>(m+1,0));
+        vector<int> prev(m+1,0),curr(m+1,0);
         
         
         for(int ind1=1;ind1<=n;ind1++){
             for(int ind2=1;ind2<=m;ind2++){
-                 if(s1[ind1-1]==s2[ind2-1]) dp[ind1][ind2]=1+dp[ind1-1][ind2-1];
+                 if(s1[ind1-1]==s2[ind2-1]) curr[ind2]=1+prev[ind2-1];
         
-                else dp[ind1][ind2]=max(dp[ind1][ind2-1],dp[ind1-1][ind2]);
+                else curr[ind2]=max(curr[ind2-1],prev[ind2]);
         
             }            
+            prev=curr;
         }
         
-        int LCS=dp[n][m];
+        int LCS=prev[m];
         
         int deletion=n-LCS;
         int insertion=m-LCS;
