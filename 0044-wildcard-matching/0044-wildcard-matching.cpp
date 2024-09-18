@@ -30,15 +30,29 @@ public:
         
         
         vector<vector<bool>> dp(n+1,vector<bool>(m+1,0));
+        vector<bool> prev(m+1,0),curr(m+1,0); 
+        prev[0]=true;
         
-        dp[0][0]=true;
-        
-        for(int j=0;j<=m;j++){
-            dp[0][j]=false;
+        for(int j=1;j<=m;j++){
+            prev[j]=false;
         }
         
-        for(int i=0;i<=n;i++){
-            bool flag=true;
+//         for(int i=0;i<=n;i++){
+//             bool flag=true;
+//             for(int ii=1;ii<=i;ii++){
+                
+//                 if(s1[ii-1]!='*'){
+//                     flag=false;
+//                     break;
+//                 }
+          
+//             }
+            
+//             curr[0]=flag;
+//         }
+        
+        for(int i=1;i<=n;i++){
+             bool flag=true;
             for(int ii=1;ii<=i;ii++){
                 
                 if(s1[ii-1]!='*'){
@@ -48,23 +62,22 @@ public:
           
             }
             
-            dp[i][0]=flag;
-        }
-        
-        for(int i=1;i<=n;i++){
+            curr[0]=flag;
             for(int j=1;j<=m;j++){
-                if(s1[i-1]==s2[j-1] || s1[i-1]=='?')  dp[i][j]=dp[i-1][j-1];
+                if(s1[i-1]==s2[j-1] || s1[i-1]=='?')  curr[j]=prev[j-1];
         
                 else if(s1[i-1]=='*'){
-                     dp[i][j]=dp[i-1][j] | dp[i][j-1];
+                     curr[j]=prev[j] | curr[j-1];
                 }
 
-                else dp[i][j]=0;
+                else curr[j]=0;
             }
+            
+            prev=curr;
         }
         
         
         
-        return dp[n][m];
+        return prev[m];
     }
 };
