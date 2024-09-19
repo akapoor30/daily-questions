@@ -28,21 +28,22 @@ public:
         int n=arr.size();
         
         vector<vector<int>> dp(n+1,vector<int>(2,0));
-        
+        vector<int> ahead(2,0), curr(2,0);
         for(int ind=n-1;ind>=0;ind--){
             for(int buy =0;buy<=1;buy++){
                 int profit=INT_MAX;
                  if(buy){
-                    profit=max(-arr[ind]+dp[ind+1][0],0+dp[ind+1][1]);
+                    profit=max(-arr[ind]+ahead[0],0+ahead[1]);
                 }
                 else{
-                    profit=max(arr[ind]+dp[ind+1][1],0+dp[ind+1][0]);
+                    profit=max(arr[ind]+ahead[1],0+ahead[0]);
                 }
 
-                 dp[ind][buy]=profit;
+                 curr[buy]=profit;
             }
+            ahead=curr;
         }
         
-        return dp[0][1];
+        return ahead[1];
     }
 };
