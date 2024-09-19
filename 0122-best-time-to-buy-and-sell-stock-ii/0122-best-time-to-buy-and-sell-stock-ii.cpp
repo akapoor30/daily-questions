@@ -24,11 +24,25 @@ public:
     
     
     
-    int maxProfit(vector<int>& prices) {
-        int n=prices.size();
+    int maxProfit(vector<int>& arr) {
+        int n=arr.size();
         
-        vector<vector<int>> dp(n,vector<int>(2,-1));
+        vector<vector<int>> dp(n+1,vector<int>(2,0));
         
-        return f(0,n,prices,1,dp);
+        for(int ind=n-1;ind>=0;ind--){
+            for(int buy =0;buy<=1;buy++){
+                int profit=INT_MAX;
+                 if(buy){
+                    profit=max(-arr[ind]+dp[ind+1][0],0+dp[ind+1][1]);
+                }
+                else{
+                    profit=max(arr[ind]+dp[ind+1][1],0+dp[ind+1][0]);
+                }
+
+                 dp[ind][buy]=profit;
+            }
+        }
+        
+        return dp[0][1];
     }
 };
