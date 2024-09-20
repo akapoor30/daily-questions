@@ -21,25 +21,26 @@ public:
     int maxProfit(vector<int>& arr) {
         int n = arr.size();
         vector<vector<int>> dp(n+1,vector<int>(5,0));
-        
+        vector<int> ahead(5,0),curr(5,0);
         for(int ind = n-1; ind>=0;ind--){
             for(int buy = 3;buy>=0;buy--){
                 
                      int profit=INT_MAX;
         
                     if(buy%2==0){
-                        profit = max(-arr[ind]+dp[ind+1][buy+1], 0 + dp[ind+1][buy]);
+                        profit = max(-arr[ind]+ahead[buy+1], 0 + ahead[buy]);
                     }
                     else{
-                        profit = max(arr[ind]+dp[ind+1][buy+1]
-                                     , 0 + dp[ind+1][buy]);
+                        profit = max(arr[ind]+ahead[buy+1]
+                                     , 0 + ahead[buy]);
                     }
-                     dp[ind][buy]=profit;
+                     curr[buy]=profit;
                 
             }
+            ahead=curr;
         }
         
         
-        return dp[0][0];
+        return ahead[0];
     }
 };
