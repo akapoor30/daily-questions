@@ -20,30 +20,26 @@ public:
     
     int maxProfit(vector<int>& arr) {
         int n = arr.size();
-        vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(3,0)));
-        
-        vector<vector<int>> ahead(2,vector<int>(3,0));
-        vector<vector<int>> curr(2,vector<int>(3,0));
+        vector<vector<int>> dp(n+1,vector<int>(5,0));
         
         for(int ind = n-1; ind>=0;ind--){
-            for(int buy = 0;buy<=1;buy++){
-                for(int cap=1;cap<=2;cap++){
+            for(int buy = 3;buy>=0;buy--){
+                
                      int profit=INT_MAX;
         
-                    if(buy){
-                        profit = max(-arr[ind]+ahead[0][cap], 0 + ahead[1][cap]);
+                    if(buy%2==0){
+                        profit = max(-arr[ind]+dp[ind+1][buy+1], 0 + dp[ind+1][buy]);
                     }
                     else{
-                        profit = max(arr[ind]+ahead[1][cap-1]
-                                     , 0 + ahead[0][cap]);
+                        profit = max(arr[ind]+dp[ind+1][buy+1]
+                                     , 0 + dp[ind+1][buy]);
                     }
-                     curr[buy][cap]=profit;
-                }
+                     dp[ind][buy]=profit;
+                
             }
-            ahead=curr;
         }
         
         
-        return ahead[1][2];
+        return dp[0][0];
     }
 };
