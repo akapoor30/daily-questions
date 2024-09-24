@@ -27,9 +27,9 @@ public:
         vector<vector<int>> dp(n+2,vector<int>(n+2,0));
         
         for(int i=n;i>=1;i--){
-            for(int j=1;j<=n;j++){
+            for(int j=i;j<=n;j++){
                  int maxi= -1e9;
-                if(i>j)continue;
+                // if(i>j)continue;
                 for(int ind=i;ind<=j;ind++){
                     int costs = nums[i-1] * nums[ind] * nums[j+1] + dp[i][ind-1] + dp[ind+1][j];
                     maxi=max(maxi,costs);
