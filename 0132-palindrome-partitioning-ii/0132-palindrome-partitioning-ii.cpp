@@ -1,35 +1,38 @@
 class Solution {
 public:
-    bool isPalindrome(string &s, int i, int j){
-        while(i<j){
-            if(s[i]!=s[j]) return false;
-            i++; j--;
+    
+    bool isPalindrome(string &s,int i,int j){
+        
+        while(i<=j){
+            if(s[i]!=s[j])return 0;
+            i++;
+            j--;
         }
-
-        return true;
+        return 1;
     }
-
-    int solve(string &s, int i,vector<int> &dp){
-        if(i==s.length()) return 0;
-
-        if(dp[i]!=-1) return dp[i];
-        int minCost=INT_MAX;
-        for(int j=i;j<s.length();j++){
+    
+    
+    int f(int i,int n, string &s,  vector<int> &dp){
+        if(i==n)return 0;
+        
+        if(dp[i]!=-1)return dp[i];
+       
+        int mini=1e9;
+        for(int j=i;j<n;j++){
+          
             if(isPalindrome(s,i,j)){
-                int cost=1+solve(s,j+1,dp);
-                minCost=min(minCost,cost);
+                int cost=1+f(j+1,n,s,dp);
+                mini=min(mini,cost);
             }
         }
-
-        return dp[i]=minCost;
-
-
+        return dp[i]=mini;
     }
-
+    
     int minCut(string s) {
-        vector<int> dp(s.length()+1,-1);
-
-        //we subtract 1 because code includes a partition at the end of the string as well
-        return solve(s,0,dp)-1;
+        int n=s.size();
+        
+        vector<int> dp(n,-1);
+        
+        return f(0,n,s,dp) -1;
     }
 };
