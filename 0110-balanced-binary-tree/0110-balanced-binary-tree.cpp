@@ -27,8 +27,8 @@ public:
     
     
     bool isBalanced(TreeNode* root) {
+        if(check(root)!=-1)return 1;
         
-        
-        return check(root)!=-1;
+        return 0;
     }
 };
