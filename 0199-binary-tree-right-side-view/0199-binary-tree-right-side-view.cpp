@@ -33,8 +33,25 @@ public:
         vector<int> ans;
         if(root==NULL)return ans;
         
-        ans.push_back(root->val);
-        f(root,ans,0);
+       queue<TreeNode*> q;
+        q.push(root);
+        
+        while(!q.empty()){
+            ans.push_back(q.front()->val);
+            int size=q.size();
+            
+            for(int i=0;i<size;i++){
+                TreeNode* node=q.front();
+                q.pop();
+                
+                if(node->right){
+                    q.push(node->right);
+                }
+                if(node->left){
+                    q.push(node->left);
+                }
+            }
+        }
         
         return ans;
     }
