@@ -12,20 +12,24 @@
 class Solution {
 public:
     
-    void f(vector<string> &ans ,TreeNode* root, string s){
-        if(!root->left && !root->right){
+    void f(TreeNode* root,vector<string> &ans,string s){
+        if(root->left==NULL && root->right==NULL){
             ans.push_back(s);
-            return ;
+            return;
         }
-        if(root->left) f(ans,root->left,s + "->" + to_string(root->left->val));
-        if(root->right) f(ans,root->right, s + "->" + to_string(root->right ->val));
+        
+        if(root->left){
+            f(root->left,ans,s+"->"+to_string(root->left->val));
+        }
+        if(root->right){
+            f(root->right,ans,s+"->"+to_string(root->right->val));
+        }
     }
-    
     
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string> ans;
-        if(root==NULL)return ans;
-        f(ans,root,to_string(root->val));
+        
+        f(root,ans,to_string(root->val));
         return ans;
     }
 };
