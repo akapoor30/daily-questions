@@ -11,38 +11,18 @@
  */
 class Solution {
 public:
-    
-    TreeNode* f(vector<int>& preorder,int preS,int preE,vector<int>& inorder,int inS,int inE,map<int,int>& mp){
-        if(preS>preE || inS>inE){
-            return NULL;
-        }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int i=0;
+        return f(preorder,i,INT_MAX);
+    }
+    TreeNode* f(vector<int>& preorder,int &i,int bound){
+        if(i==preorder.size() || preorder[i]>bound)return NULL;
         
-        TreeNode* root=new TreeNode(preorder[preS]);
-        
-        int inRoot=mp[preorder[preS]];
-        int numsleft=inRoot-inS;
-        
-        root->left=f(preorder,preS+1 ,preS+numsleft ,inorder,inS , inRoot-1,mp);
-        root->right=f(preorder,preS+numsleft+1 ,preE ,inorder ,inRoot+1 ,inE ,mp);
+        TreeNode* root=new TreeNode(preorder[i]);
+        i++;
+        root->left=f(preorder,i,root->val);
+        root->right=f(preorder,i,bound);
         
         return root;
-    }
-    
-    TreeNode* bstFromPreorder(vector<int>& preorder) {
-        vector<int> inorder;
-        
-        for(int i=0;i<preorder.size();i++){
-            inorder.push_back(preorder[i]);
-        }
-        
-        sort(inorder.begin(),inorder.end());
-        
-        map<int,int> mp;
-        
-        for(int i=0;i<inorder.size();i++){
-            mp[inorder[i]]=i;
-        }
-        
-        return f(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,mp);
     }
 };
